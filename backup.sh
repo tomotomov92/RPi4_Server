@@ -8,6 +8,7 @@ mkdir -p /mnt/ExternalStorage/Backups/$(hostname)_$(date +"%Y%m%d")
 tar -zcf /backup/system.tgz \
  --exclude=".*" \
  --exclude="/home/pi/*.log" \
+ --add-file=/boot/config.txt
  -c /etc/dnsmasq.d \
  -c /etc/samba \
  -c /home \
