@@ -23,6 +23,13 @@ mkdir -p /backup #sudo mkdir -p /backup
 apt install ccrypt -y #sudo apt install ccrypt
 
 
+#Restore files from backup
+mv /<pathToBackups>/* /backup/
+
+
+
+
+
 #Install Argon One case script for FAN
 curl https://download.argon40.com/argon1.sh | bash
 
