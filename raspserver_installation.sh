@@ -27,7 +27,7 @@ apt install ccrypt -y #sudo apt install ccrypt
 cp /<pathToBackups>/* /backup/ #sudo cp /<pathToBackups>/* /backup/
 
 #Decrypt backup files
-ccdecrypt -K  /backup/*.*
+ccdecrypt -K  /backup/*.* #sudo ccdecrypt -K  /backup/*.*
 
 #Restore specific archives
 cd /backup
