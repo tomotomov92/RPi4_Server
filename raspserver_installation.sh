@@ -23,11 +23,15 @@ mkdir -p /backup #sudo mkdir -p /backup
 apt install ccrypt -y #sudo apt install ccrypt
 
 
-#Restore files from backup
-mv /<pathToBackups>/* /backup/
+#Restore files for backup
+cp /<pathToBackups>/* /backup/ #sudo cp /<pathToBackups>/* /backup/
 
+#Decrypt backup files
+ccdecrypt -K  /backup/*.*
 
-
+#Restore specific archives
+cd /backup
+tar -zxvf <fileName>.tgz -C / #sudo tar -zxvf <fileName>.tgz -C /
 
 
 #Install Argon One case script for FAN
