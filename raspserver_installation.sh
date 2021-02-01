@@ -51,6 +51,10 @@ chown -R pi:pi /mnt/ExternalStorage #sudo chown -R pi:pi /mnt/ExternalStorage
 sed -i -e '$aUUID=441228F01228E91E /mnt/ExternalStorage ntfs defaults,nofail,noatime 0 0' /etc/fstab #sudo sed -i -e '$aUUID=441228F01228E91E /mnt/ExternalStorage ntfs defaults,nofail,noatime 0 0' /etc/fstab
 
 
+#Install SAMBA:
+apt install samba samba-common-bin -y #sudo apt install samba samba-common-bin -y
+
+
 #Docker
 apt install docker -y #sudo apt install docker -y
 
