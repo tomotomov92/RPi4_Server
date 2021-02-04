@@ -76,14 +76,12 @@ su pi #sudo su pi
   
 
 #Plex
-#Enter Super User for the execution of Plex
-su #sudo su
 #Add key to access installation and updates for the project
 curl https://downloads.plex.tv/plex-keys/PlexSign.key | apt-key add -
+#curl https://downloads.plex.tv/plex-keys/PlexSign.key | sudo apt-key add -
 #Download the packages from plex's website to the local storage 
 echo deb https://downloads.plex.tv/repo/deb public main | tee /etc/apt/sources.list.d/plexmediaserver.list
-#Exit the Super User
-exit
+#echo deb https://downloads.plex.tv/repo/deb public main | sudo tee /etc/apt/sources.list.d/plexmediaserver.list
 #Update the references
 apt update #sudo apt update
 #Install Plex with apt as usual
