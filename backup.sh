@@ -13,6 +13,7 @@ tar -zcf /backup/system.tgz \
  -c /etc/samba \
  -c /home \
  -c /var/lib/duckdns \
+ -c /var/lib/duplicati \
  -c /var/lib/pihole \
  -c /var/lib/portainer \
  -c /var/lib/samba \
