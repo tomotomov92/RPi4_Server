@@ -77,4 +77,4 @@ mv /backup/media.tgz /mnt/ExternalStorage/Backups/$(hostname)_$(date +"%Y%m%d")/
 
 
 #Encrypt all archives
-ccencrypt -K  /mnt/ExternalStorage/Backups/$(hostname)_$(date +"%Y%m%d")/*.*
+#ccencrypt -K  /mnt/ExternalStorage/Backups/$(hostname)_$(date +"%Y%m%d")/*.*
