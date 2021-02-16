@@ -54,6 +54,10 @@ sed -i -e '$aUUID=441228F01228E91E /mnt/ExternalStorage ntfs defaults,nofail,noa
 
 #Install SAMBA:
 apt install samba samba-common-bin -y #sudo apt install samba samba-common-bin -y
+#Edit SAMBA config:
+#sudo nano /etc/samba/smb.conf
+#Restart SAMBA:
+#sudo systemctl restart smbd
 
 
 #Docker
