@@ -80,6 +80,13 @@ apt install plexmediaserver #sudo apt install plexmediaserver
 
 
 
+
+#Install OnScreen Keyboard
+apt install matchbox-keyboard #sudo apt install matchbox-keyboard
+
+
+
+
 #Docker && Docker-Compose
 apt install docker -y && apt install docker-compose -y #sudo apt install docker -y && sudo apt install docker-compose -y
 
