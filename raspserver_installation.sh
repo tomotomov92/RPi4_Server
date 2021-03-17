@@ -66,20 +66,6 @@ apt install privoxy -y #sudo apt install privoxy -y
 
 
 
-#Docker
-apt install docker -y #sudo apt install docker -y
-
-
-#Docker-Compose
-apt install docker-compose -y #sudo apt install docker-compose -y
-
-
-#Configure Docker
-usermod -aG docker pi #sudo usermod -aG docker pi
-su pi #sudo su pi
-
-
-
 #Plex
 #Add key to access installation and updates for the project
 curl https://downloads.plex.tv/plex-keys/PlexSign.key | apt-key add -
@@ -91,3 +77,11 @@ echo deb https://downloads.plex.tv/repo/deb public main | tee /etc/apt/sources.l
 apt update #sudo apt update
 #Install Plex with apt as usual
 apt install plexmediaserver #sudo apt install plexmediaserver
+
+
+
+#Docker && Docker-Compose
+apt install docker -y && apt install docker-compose -y #sudo apt install docker -y && sudo apt install docker-compose -y
+
+#Configure Docker User
+usermod -aG docker pi #sudo usermod -aG docker pi
