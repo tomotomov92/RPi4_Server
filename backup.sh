@@ -8,12 +8,20 @@ mkdir -p /mnt/ExternalStorage/Backups/$(hostname)_$(date +"%Y%m%d")
 tar -zcf /backup/system.tgz \
  --exclude=".*" \
  --exclude="/home/pi/*.log" \
- --add-file=/boot/config.txt
+ --exclude="/home/pi/Bookshelf/*" \
+ --exclude="/home/pi/Desktop/*" \
+ --exclude="/home/pi/Documents/*" \
+ --exclude="/home/pi/Downloads/*" \
+ --exclude="/home/pi/Music/*" \
+ --exclude="/home/pi/Pictures/*" \
+ --exclude="/home/pi/Public/*" \
+ --exclude="/home/pi/Templates/*" \
+ --exclude="/home/pi/Videos/*" \
+ --add-file=/boot/config.txt \
  -c /etc/dnsmasq.d \
  -c /etc/samba \
  -c /home \
  -c /var/lib/duckdns \
- -c /var/lib/duplicati \
  -c /var/lib/pihole \
  -c /var/lib/portainer \
  -c /var/lib/samba \
@@ -26,7 +34,6 @@ mv /backup/system.tgz /mnt/ExternalStorage/Backups/$(hostname)_$(date +"%Y%m%d")
 
 # Backup database config directories
 tar -zcf /backup/databases.tgz \
- -c /var/lib/chronograf \
  -c /var/lib/mysql
  /
 # Move the archive to external storage for backing up
@@ -36,9 +43,7 @@ mv /backup/databases.tgz /mnt/ExternalStorage/Backups/$(hostname)_$(date +"%Y%m%
 # Backup monitoring config directories
 tar -zcf /backup/monitoring.tgz \
  -c /etc/motioneye \
- -c /var/lib/grafana \
  -c /var/lib/motioneye \
- -c /var/lib/telegraf \
  -c /var/run/motion
  /
 # Move the archive to external storage for backing up
@@ -66,7 +71,9 @@ sudo tar -zcf /backup/media.tgz \
  --exclude='/var/lib/radarr/config/MediaCover/*' \
  --exclude='/var/lib/sonarr/logs/*' \
  --exclude='/var/lib/sonarr/MediaCover/*' \
+ --add-file=/mnt/ExternalStorage/Books/metadata.db \
  -c /var/lib/bazarr \
+ -c /var/lib/calibre-web \
  -c /var/lib/ombi \
  -c /var/lib/plexmediaserver \
  -c /var/lib/radarr \
@@ -77,4 +84,4 @@ mv /backup/media.tgz /mnt/ExternalStorage/Backups/$(hostname)_$(date +"%Y%m%d")/
 
 
 #Encrypt all archives
-#ccencrypt -K  /mnt/ExternalStorage/Backups/$(hostname)_$(date +"%Y%m%d")/*.*
+ccencrypt -K  /mnt/ExternalStorage/Backups/$(hostname)_$(date +"%Y%m%d")/*.*
