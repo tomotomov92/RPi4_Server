@@ -10,9 +10,9 @@ raspi-config nonint do_hostname raspserver #sudo raspi-config nonint do_hostname
 timedatectl set-timezone Europe/Sofia #sudo timedatectl set-timezone Europe/Sofia
 
 
-#Disable Swap file
-dphys-swapfile swapoff #sudo dphys-swapfile swapoff
-systemctl disable dphys-swapfile.service #sudo systemctl disable dphys-swapfile.service
+##Disable Swap file
+#dphys-swapfile swapoff #sudo dphys-swapfile swapoff
+#systemctl disable dphys-swapfile.service #sudo systemctl disable dphys-swapfile.service
 
 
 #Create backup directory
@@ -34,8 +34,8 @@ cd /backup
 tar -zxvf <fileName>.tgz -C / #sudo tar -zxvf <fileName>.tgz -C /
 
 
-#Install Argon One case script for FAN
-curl https://download.argon40.com/argon1.sh | bash
+##Install Argon One case script for FAN
+#curl https://download.argon40.com/argon1.sh | bash
 
 
 #Update && Upgrade
@@ -60,6 +60,12 @@ apt install samba samba-common-bin -y #sudo apt install samba samba-common-bin -
 #sudo systemctl restart smbd
 
 
+
+#Install Privoxy:
+apt install privoxy -y #sudo apt install privoxy -y
+
+
+
 #Docker
 apt install docker -y #sudo apt install docker -y
 
@@ -73,11 +79,6 @@ usermod -aG docker pi #sudo usermod -aG docker pi
 su pi #sudo su pi
 
 
-#Restore the latest backups
-#ccdecrypt -K  /path/to/directory/*.*
-#tar -zxvf filename.tgz -C / #sudo tar -zxvf filename.tgz -C / ##The files are restored to the directories where they were archived from
-#sh /home/pi/docker-compose-up.sh #sudo sh /home/pi/docker-compose-up.sh ##Download all docker containers and start them with the already existing configurations from the backup
-  
 
 #Plex
 #Add key to access installation and updates for the project
