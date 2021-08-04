@@ -48,8 +48,8 @@ chown -R pi:pi /mnt/ExternalStorage #sudo chown -R pi:pi /mnt/ExternalStorage
 
 
 #Add drive to /mnt on startup
-sed -i -e '$aUUID=441228F01228E91E /mnt/ExternalStorage ntfs defaults,nofail,noatime 0 0' /etc/fstab
-#sudo sed -i -e '$aUUID=441228F01228E91E /mnt/ExternalStorage ntfs defaults,nofail,noatime 0 0' /etc/fstab
+sed -i -e '$aPARTUUID=2c20ab9f-6533-45c2-b7c9-64c6bd8ea276 /mnt/ExternalStorage ntfs defaults,nofail,noatime 0 0' /etc/fstab
+#sudo sed -i -e '$aPARTUUID=2c20ab9f-6533-45c2-b7c9-64c6bd8ea276 /mnt/ExternalStorage ntfs defaults,nofail,noatime 0 0' /etc/fstab
 
 
 #Install SAMBA:
