@@ -1,94 +1,40 @@
-#Change password
-passwd pi #sudo passwd pi
+#Change hostname and timezone:
+sudo raspi-config nonint do_hostname raspserver
+sudo timedatectl set-timezone Europe/Sofia
 
+#Create directories and give tomo permissions:
+sudo mkdir -p /backup
+sudo mkdir -p /docker
+sudo mkdir -p /downloads
+sudo mkdir -p /storage
+#Change owner
+sudo chown -R tomo:tomo /backup
+sudo chown -R tomo:tomo /docker
+sudo chown -R tomo:tomo /downloads
+sudo chown -R tomo:tomo /storage
+#Add permissions to directories
+sudo chmod -R 777 /backup
+sudo chmod -R 777 /docker
+sudo chmod -R 777 /downloads
+sudo chmod -R 777 /storage
 
-#Change hostname:
-raspi-config nonint do_hostname raspserver #sudo raspi-config nonint do_hostname raspserver
+#Install required software from apt:
+sudo apt update
+sudo apt upgrade
+sudo apt install smartmontools
+sudo apt install samba samba-common-bin
+sudo apt install docker
+sudo apt install docker-compose
 
+#Add permissions for default user to docker commands:
+sudo usermod -aG docker tomo
 
-#Set Timezone to Sofia
-timedatectl set-timezone Europe/Sofia #sudo timedatectl set-timezone Europe/Sofia
+#Add cron task for backing up every two days:
+crontab -e
+0 1 */2 * * sudo /usr/bin/sh /home/tomo/backup.sh
+#0 * * * * sudo dhcpcd eth0 #Task for restoring eth0 connectivity once per hour
 
-
-##Disable Swap file
-#dphys-swapfile swapoff #sudo dphys-swapfile swapoff
-#systemctl disable dphys-swapfile.service #sudo systemctl disable dphys-swapfile.service
-
-
-#Create backup directory
-mkdir -p /backup #sudo mkdir -p /backup
-
-
-#Install ccrypt
-apt install ccrypt -y #sudo apt install ccrypt
-
-
-#Restore files for backup
-cp /<pathToBackups>/* /backup/ #sudo cp /<pathToBackups>/* /backup/
-
-#Decrypt backup files
-ccdecrypt -K  /backup/*.* #sudo ccdecrypt -K  /backup/*.*
-
-#Restore specific archives
-cd /backup
-tar -zxvf <fileName>.tgz -C / #sudo tar -zxvf <fileName>.tgz -C /
-
-
-##Install Argon One case script for FAN
-#curl https://download.argon40.com/argon1.sh | bash
-
-
-#Update && Upgrade
-apt update && apt upgrade -y #sudo apt update && sudo apt upgrade -y
-
-
-#Create directory for mount
-mkdir -p /mnt/ExternalStorage #sudo mkdir -p /mnt/ExternalStorage
-chown -R pi:pi /mnt/ExternalStorage #sudo chown -R pi:pi /mnt/ExternalStorage
-
-
-#Add drive to /mnt on startup
-sed -i -e '$aPARTUUID=2c20ab9f-6533-45c2-b7c9-64c6bd8ea276 /mnt/ExternalStorage ntfs defaults,nofail,noatime 0 0' /etc/fstab
-#sudo sed -i -e '$aPARTUUID=2c20ab9f-6533-45c2-b7c9-64c6bd8ea276 /mnt/ExternalStorage ntfs defaults,nofail,noatime 0 0' /etc/fstab
-
-
-#Install SAMBA:
-apt install samba samba-common-bin -y #sudo apt install samba samba-common-bin -y
-#Edit SAMBA config:
-#sudo nano /etc/samba/smb.conf
-#Restart SAMBA:
-#sudo systemctl restart smbd
-
-
-
-#Install Privoxy:
-apt install privoxy -y #sudo apt install privoxy -y
-
-
-
-#Plex
-#Add key to access installation and updates for the project
-curl https://downloads.plex.tv/plex-keys/PlexSign.key | apt-key add -
-#curl https://downloads.plex.tv/plex-keys/PlexSign.key | sudo apt-key add -
-#Download the packages from plex's website to the local storage 
-echo deb https://downloads.plex.tv/repo/deb public main | tee /etc/apt/sources.list.d/plexmediaserver.list
-#echo deb https://downloads.plex.tv/repo/deb public main | sudo tee /etc/apt/sources.list.d/plexmediaserver.list
-#Update the references
-apt update #sudo apt update
-#Install Plex with apt as usual
-apt install plexmediaserver #sudo apt install plexmediaserver
-
-
-
-
-#Install OnScreen Keyboard
-apt install matchbox-keyboard #sudo apt install matchbox-keyboard
-
-
-
-
-#Docker && Docker-Compose
-apt install docker -y && apt install docker-compose -y #sudo apt install docker -y && sudo apt install docker-compose -y
-
-#Configure Docker User
-usermod -aG docker pi #sudo usermod -aG docker pi
+#Show hdd temperature
+#sudo smartctl -A -d sat /dev/sda | grep Temperature_Celsius | awk '{print $10 " °C"}'
+#sudo smartctl -A -d sat /dev/sdb | grep Temperature_Celsius | awk '{print $10 " °C"}'
+#sudo smartctl -A -d sat /dev/sdc | grep Temperature_Celsius | awk '{print $10 " °C"}'
