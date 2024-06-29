@@ -22,6 +22,10 @@ sudo apt update
 sudo apt upgrade
 sudo apt install docker docker-compose -y
 
+curl -fsSL https://tailscale.com/install.sh | sh
+sudo tailscale set --advertise-exit-node
+sudo tailscale up --advertise-routes=192.168.2.0/24 --ssh --advertise-exit-node
+
 #Add permissions for default user to docker commands:
 sudo usermod -aG docker tomo
 
