@@ -9,9 +9,9 @@ sudo mkdir -p /docker
 sudo chown -R tomo:tomo /backups
 sudo chown -R tomo:tomo /backup_temp
 sudo chown -R tomo:tomo /docker
-sudo chmod -R 600 /backups
-sudo chmod -R 600 /backup_temp
-sudo chmod -R 600 /docker
+sudo chmod -R 700 /backups
+sudo chmod -R 700 /backup_temp
+sudo chmod -R 700 /docker
 
 ## Update apt
 sudo apt update && sudo apt upgrade -y
