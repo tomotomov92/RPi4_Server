@@ -23,9 +23,12 @@ sudo usermod -aG docker $USER
 
 ## Install Tailscale
 curl -fsSL https://tailscale.com/install.sh | sh
+cd /etc/sysctl.d
+echo 'net.ipv4.ip_forward = 1' | sudo tee -a /etc/sysctl.d/99-tailscale.conf
+echo 'net.ipv6.conf.all.forwarding = 1' | sudo tee -a /etc/sysctl.d/99-tailscale.conf
+sudo sysctl -p /etc/sysctl.d/99-tailscale.conf
 sudo tailscale set --advertise-exit-node
-sudo tailscale up --advertise-routes=192.168.2.0/24 --ssh --advertise-exit-node
-
+sudo tailscale up --accept-routes --advertise-exit-node --advertise-routes=192.168.2.0/24,192.168.1.0/24 --ssh
 
 #Add cron task for backing up every two days:
 crontab -e
