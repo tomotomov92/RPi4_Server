@@ -34,3 +34,7 @@ sudo tailscale up --advertise-exit-node --advertise-routes=192.168.2.0/24,192.16
 crontab -e
 0 1 */2 * * sudo /usr/bin/sh /home/tomo/backup.sh
 #0 * * * * sudo dhcpcd eth0 #Task for restoring eth0 connectivity once per hour
+
+
+#Extract archive
+sudo tar -C / -zxf /backups/backup.tgz 
