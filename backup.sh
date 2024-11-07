@@ -1,87 +1,16 @@
 #!/bin/bash
 
-# Create the final directory for the backups
-mkdir -p /mnt/ExternalStorage/Backups/$(hostname)_$(date +"%Y%m%d")
-
-
 # Backup system config directories
-tar -zcf /backup/system.tgz \
+tar -zcf /backup_temp/backup_$(hostname)_$(date +"%Y%m%d").tgz \
  --exclude=".*" \
- --exclude="/home/pi/*.log" \
- --exclude="/home/pi/Bookshelf/*" \
- --exclude="/home/pi/Desktop/*" \
- --exclude="/home/pi/Documents/*" \
- --exclude="/home/pi/Downloads/*" \
- --exclude="/home/pi/Music/*" \
- --exclude="/home/pi/Pictures/*" \
- --exclude="/home/pi/Public/*" \
- --exclude="/home/pi/Templates/*" \
- --exclude="/home/pi/Videos/*" \
- --add-file=/boot/config.txt \
- -c /etc/dnsmasq.d \
- -c /etc/samba \
- -c /home \
- -c /var/lib/duckdns \
- -c /var/lib/pihole \
- -c /var/lib/portainer \
- -c /var/lib/samba \
- -c /var/lib/wireguard \
- -c /var/spool/cron/crontabs
- /
+ --exclude="/home/tomo/*.log" \
+ -c /home/tomo/ \
+ -c /docker/ 
+
 # Move the archive to external storage for backing up
-mv /backup/system.tgz /mnt/ExternalStorage/Backups/$(hostname)_$(date +"%Y%m%d")/system.tgz
+mv /backup_temp/backup_$(hostname)_$(date +"%Y%m%d").tgz /backups/backup_$(hostname)_$(date +"%Y%m%d").tgz
 
+# Change backup permissions
+chown tomo:tomo /backups/backup_$(hostname)_$(date +"%Y%m%d").tgz
+chmod 777 /backups/backup_$(hostname)_$(date +"%Y%m%d").tgz
 
-# Backup database config directories
-tar -zcf /backup/databases.tgz \
- -c /var/lib/mysql
- /
-# Move the archive to external storage for backing up
-mv /backup/databases.tgz /mnt/ExternalStorage/Backups/$(hostname)_$(date +"%Y%m%d")/databases.tgz
-
-
-# Backup monitoring config directories
-tar -zcf /backup/monitoring.tgz \
- -c /etc/motioneye \
- -c /var/lib/motioneye \
- -c /var/run/motion
- /
-# Move the archive to external storage for backing up
-mv /backup/monitoring.tgz /mnt/ExternalStorage/Backups/$(hostname)_$(date +"%Y%m%d")/monitoring.tgz
-
-
-# Backup downloaders config directories
-tar -zcf /backup/downloaders.tgz \
- -c /var/lib/nzbget \
- -c /var/lib/transmission \
- -c /var/lib/jackett
- /
-# Move the archive to external storage for backing up
-mv /backup/downloaders.tgz /mnt/ExternalStorage/Backups/$(hostname)_$(date +"%Y%m%d")/downloaders.tgz
-
-
-# Backup media config directories
-sudo tar -zcf /backup/media.tgz \
- --exclude='/var/lib/ombi/Logs/*' \
- --exclude='/var/lib/plexmediaserver/Library/Application Support/Plex Media Server/Cache/*' \
- --exclude='/var/lib/plexmediaserver/Library/Application Support/Plex Media Server/Logs/*' \
- --exclude='/var/lib/plexmediaserver/Library/Application Support/Plex Media Server/Media/*' \
- --exclude='/var/lib/plexmediaserver/Library/Application Support/Plex Media Server/Metadata/*' \
- --exclude='/var/lib/radarr/config/logs/*' \
- --exclude='/var/lib/radarr/config/MediaCover/*' \
- --exclude='/var/lib/sonarr/logs/*' \
- --exclude='/var/lib/sonarr/MediaCover/*' \
- --add-file=/mnt/ExternalStorage/Books/metadata.db \
- -c /var/lib/bazarr \
- -c /var/lib/calibre-web \
- -c /var/lib/ombi \
- -c /var/lib/plexmediaserver \
- -c /var/lib/radarr \
- -c /var/lib/sonarr
- /
-# Move the archive to external storage for backing up
-mv /backup/media.tgz /mnt/ExternalStorage/Backups/$(hostname)_$(date +"%Y%m%d")/media.tgz
-
-
-#Encrypt all archives
-ccencrypt -K  /mnt/ExternalStorage/Backups/$(hostname)_$(date +"%Y%m%d")/*.*
